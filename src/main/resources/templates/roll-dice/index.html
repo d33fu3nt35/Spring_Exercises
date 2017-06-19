@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>ROLL DICE</title>
+</head>
+<body>
+
+Click on any of the links below to guess a number!
+
+<br />
+
+<a href="/roll-dice/1">1</a>
+<a href="/roll-dice/2">2</a>
+<a href="/roll-dice/3">3</a>
+<a href="/roll-dice/4">4</a>
+<a href="/roll-dice/5">5</a>
+<a href="/roll-dice/6">6</a>
+
+<div class="correct" th:if="${guess == diceRoll}">
+    You guessed correctly!
+</div>
+
+<div th:unless="${guess == diceRoll}">
+   You guessed incorrectly, please try again!
+</div>
+
+</body>
+</html>

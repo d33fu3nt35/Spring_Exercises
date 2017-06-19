@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/home")
+
+    // With a ResponseBody annotation it will return the value produced by this method as response.
     public String welcome() {
-        return "home";
+        return "home"; // it'll look for the view within templates if no ResponseBody annotation is found
     }
 }
