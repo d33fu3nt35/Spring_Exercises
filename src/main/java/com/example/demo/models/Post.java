@@ -1,11 +1,18 @@
-package com.example.demo.controllers;
+package com.example.demo.models;
 
 /**
  * Created by daniel on 6/19/17.
  */
-public class PostController {
+
+public class Post {
 
     private String title;
+
+    public Post(String title, String body) {
+        this.title = title;
+        this.body = body;
+    }
+
     private String body;
 
     public String getTitle() {
@@ -23,4 +30,5 @@ public class PostController {
     public void setBody(String body) {
         this.body = body;
     }
+
 }
