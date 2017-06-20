@@ -1,19 +1,19 @@
 package com.example.demo.models;
 
 /**
- * Created by daniel on 6/19/17.
+ * Created by daniel on 6/20/17.
  */
-
-public class Post {
-
+public class Ad {
     private long id;
     private String title;
-    private String body;
+    private String description;
 
-    public Post(String title, String body) {
+
+    public Ad(String title, String description) {
         this.title = title;
-        this.body = body;
+        this.description = description;
     }
+
 
     public long getId() {
         return id;
@@ -31,12 +31,15 @@ public class Post {
         this.title = title;
     }
 
-    public String getBody() {
-        return body;
+    public String getDescription() {
+        return description;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+
+
 
 }

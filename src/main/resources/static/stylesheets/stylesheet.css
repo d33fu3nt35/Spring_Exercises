@@ -1,0 +1,32 @@
+/* NAVBAR CSS */
+
+.btn-outline-success {
+    color: #0275d8;
+    background-image: none;
+    background-color: transparent;
+    border-color: #0275d8;
+}
+
+.btn-outline-success:hover {
+    color: #FFFFFF;
+    background-image: none;
+    background-color: #0275d8;
+    border-color: #0275d8;
+}
+
+.navbar-inverse .navbar-nav .active>.nav-link {
+    color: #0275d8;
+    transition: 1s;
+}
+
+.navbar-inverse .navbar-nav .active>.nav-link:hover {
+    color: #FFFFFF;
+    transition: 1s;
+}
+
+/* JUMBOTRON CSS */
+
+#blogbg {
+    margin-top: 50px;
+    border-radius: 0px;
+}
