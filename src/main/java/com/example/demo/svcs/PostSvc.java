@@ -1,7 +1,11 @@
 package com.example.demo.svcs;
 
+import com.example.demo.models.Ad;
 import com.example.demo.models.Post;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +37,9 @@ public class PostSvc {
 
     private void createPosts() {
         posts = new ArrayList<>();
-        save (new Post("Playstation for sale", "$1000 OBO"));
-        save (new Post("Xbox for sale", "$1000 OBO"));
-        save (new Post("Nintendo for sale", "$1000 OBO"));
-        save (new Post("PC for sale", "$1000 OBO"));
+        save(new Post("Playstation for sale", "$1000 OBO"));
+        save(new Post("Xbox for sale", "$1000 OBO"));
+        save(new Post("Nintendo for sale", "$1000 OBO"));
+        save(new Post("PC for sale", "$1000 OBO"));
     }
 }

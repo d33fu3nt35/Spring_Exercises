@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: head">
+<head th:replace="fragments :: head('My Spring Boot Post Form')">
     <meta charset="UTF-8"/>
-    <title>My Springboot Ad Form</title>
+    <title>Hello!</title>
 </head>
 <body>
 
@@ -12,16 +12,16 @@
             aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#">My Blog!</a>
+    <a class="navbar-brand" href="/posts">My Blog!</a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="/posts">Home</a>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">About Me</a>
+                <a class="nav-link" href="/posts/create">Create Post</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Portfolio</a>
+                <a class="nav-link" href="/posts/1/edit">Edit Post</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -31,17 +31,18 @@
     </div>
 </nav>
 
-<form action="/ads/create" method="POST" th:object="${ad}">
-    <div class="form-group"><label for="title">Title</label>
+<form action="/posts/create" method="POST" th:object="${post}">
+    <div class="form-group"><label for="title">Post Title</label>
         <input type="text" name="title" id="title" class="form-control" th:field="*{title}"/>
     </div>
 
-    <div class="form-group"><label for="description">Description</label>
-        <input type="text" name="description" id="description" class="form-control" th:field="*{description}"/>
+    <div class="form-group"><label for="body">Post Body</label>
+        <input type="text" name="body" id="body" class="form-control" th:field="*{body}"/>
     </div>
 
     <button class="btn btn-default">Save</button>
 
 </form>
+
 </body>
 </html>

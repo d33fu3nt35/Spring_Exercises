@@ -5,10 +5,7 @@ import com.example.demo.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,15 +25,6 @@ public class PostsController {
 
     }
 
-//    @GetMapping("/posts")
-//    public String viewAll(Model model) {
-//        List<Post> list = new ArrayList<Post>();
-//        list.add(new Post("title 1", "body 1000000qwdawdaw"));
-//        list.add(new Post("title 2", "body 2"));
-//        model.addAttribute("list", list);
-//        return "posts/index";
-//    }
-
     @GetMapping("/posts")
     public String viewAll(Model model) {
 
@@ -55,16 +43,42 @@ public class PostsController {
     }
 
     @GetMapping("/posts/create")
-    @ResponseBody
-    public String showPostForm() {
-        return "view the form for creating a post";
+    public String showPostForm(Model model) {
+        model.addAttribute("post", new Post());
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String savePost() {
-        return "create a new post";
+    public String savePost(@RequestParam(name = "title") String title,
+                           @RequestParam(name = "body") String body,
+                           Model model
+    ) {
+        Post post = new Post(title, body);
+        postsDao.save(post);
+        model.addAttribute("post", post);
+        return "posts/create";
     }
 
+    @GetMapping("/posts/{id}/edit")
+    public String showEditForm(@PathVariable long id,
+                           Model model
+    ) {
+
+        Post post = postsDao.findOne(id);
+        model.addAttribute("post", post);
+        return "posts/edit";
+
+    }
+
+    @PostMapping("/posts/{id}/edit")
+    public String updatePost(@RequestParam(name = "title") String title,
+                             @RequestParam(name = "body") String body,
+                             Model model
+    ) {
+        Post post = new Post(title, body);
+        postsDao.save(post);
+        model.addAttribute("post", post);
+        return "posts/edit";
+    }
 
 }
