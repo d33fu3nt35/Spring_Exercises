@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head">
     <meta charset="UTF-8"/>
-    <title>My Springboot Blog!</title>
+    <title>My Springboot Form</title>
 </head>
 <body>
 
@@ -16,7 +16,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-                <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="#">Home</a>
             <li class="nav-item">
                 <a class="nav-link disabled" href="#">About Me</a>
             </li>
@@ -31,19 +31,17 @@
     </div>
 </nav>
 
-<div th:each="post : ${posts}" class="jumbotron" id="blogbg">
-        <h1 class="display-3" th:text="${post.title}"></h1>
-        <hr class="my-4" />
-        <p th:text="${post.body}"></p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </p>
-</div>
+<form action="/ads/create" method="POST" th:object="${ad}">
+    <div class="form-group"><label for="title">Title</label>
+        <input type="text" name="title" id="title" class="form-control" th:field="*{title}"/>
+    </div>
 
-<!--<div th:each="post : ${posts}">-->
-<!--<h1 th:text="${post.title}" />-->
-<!--<p th:text="${post.body}" />-->
-<!--</div>-->
+    <div class="form-group"><label for="description">Description</label>
+        <input type="text" name="description" id="description" class="form-control" th:field="*{description}"/>
+    </div>
 
+    <button class="btn btn-default">Save</button>
+
+</form>
 </body>
 </html>
