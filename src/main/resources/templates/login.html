@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: head('My Springboot Blog!')">
+<head th:replace="fragments :: head('Login!')">
     <meta charset="UTF-8"/>
     <title>Hey there!</title>
 </head>
@@ -31,15 +31,24 @@
     </div>
 </nav>
 
-<div th:each="post : ${posts}" class="jumbotron" id="blogbg">
-    <h1 class="display-3" th:text="${post.title}"></h1>
-    <h3 th:text="${post.owner.username}"></h3>
-    <hr class="my-4"/>
-    <p th:text="${post.body}"></p>
-    <p class="lead">
-        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </p>
+<h1>Log In</h1>
+<div th:if="${param.error}">
+    Invalid Username & Password!
 </div>
+
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+
+<form th:action="@{/login}" method="POST">
+    <label for="username">Username</label>
+    <input id="username" name="username" type="text"/>
+
+    <label for="password">Password</label>
+    <input id="password" name="password" type="text"/>
+
+    <input type="submit" value="Log In"/>
+</form>
 
 </body>
 </html>

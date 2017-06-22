@@ -2,14 +2,12 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.Post;
 import com.example.demo.models.User;
-import com.example.demo.repositories.UsersRepository;
+import com.example.demo.repositories.UsersRepo;
 import com.example.demo.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * Created by daniel on 6/19/17.
@@ -19,10 +17,10 @@ import java.util.List;
 public class PostsController {
 
     private PostSvc postsDao;
-    private UsersRepository usersDao;
+    private UsersRepo usersDao;
 
     @Autowired
-    public PostsController(PostSvc postsDao, UsersRepository usersDao) {
+    public PostsController(PostSvc postsDao, UsersRepo usersDao) {
 
         this.postsDao = postsDao;
         this.usersDao = usersDao;
@@ -58,7 +56,7 @@ public class PostsController {
                            Model model
     ) {
         Post post = new Post(title, body);
-        User user = usersDao.findOne(1L); // just use the first user in the db
+        User user = usersDao.findOne(usersDao.findByUsername("Daniel").getId()); // just use the first user in the db
         post.setOwner(user);
         postsDao.save(post);
         model.addAttribute("post", post);
@@ -88,9 +86,10 @@ public class PostsController {
         return "redirect:/posts";
     }
 
-    @GetMapping("/posts/{id}/delete")
-    public String deletePost(@PathVariable Long id) {
-        postsDao.deletePost(id);
+    @PostMapping("/posts/{id}/delete")
+    public String deletePost(@ModelAttribute Post post, Model model) {
+        postsDao.deletePost(post.getId());
+        model.addAttribute("msg", "Your post was deleted!");
         return "redirect:/posts";
     }
 

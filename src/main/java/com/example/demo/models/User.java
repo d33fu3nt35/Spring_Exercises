@@ -23,11 +23,17 @@ public class User {
     @Column (nullable = false, length = 50)
     private String password;
 
+
+
     public User(Long id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public User(User user) {
+
     }
 
     public User() {
