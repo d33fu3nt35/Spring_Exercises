@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: head('Edit Your Spring Boot Post!')">
+<head th:replace="fragments :: head('Springboot Ads Show')">
     <meta charset="UTF-8"/>
-    <title>Hello!</title>
+    <title>Hey there!</title>
 </head>
 <body>
 
@@ -31,19 +31,20 @@
     </div>
 </nav>
 
-<form th:action="${'/posts/' + post.id + '/edit'}" method="POST" th:object="${post}">
-    <div class="form-group"><label for="title">Update Title</label>
-        <input type="text" name="title" id="title" class="form-control" th:field="*{title}"/>
-    </div>
+<div th:each="ad : ${ad}" class="jumbotron" id="blogbg">
+    <h1 class="display-3" th:text="${ad.title}"></h1>
+    <hr class="my-4" />
+    <p th:text="${ad.author_id}"></p>
+    <p th:text="${ad.description}"></p>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </p>
+</div>
 
-    <div class="form-group"><label for="body">Update Body</label>
-        <input type="text" name="body" id="body" class="form-control" th:field="*{body}"/>
-    </div>
-
-    <button class="btn btn-primary">Save</button>
-    <a th:href="${'/posts/' + post.id + '/delete'}" class="btn btn-danger">Delete</a>
-
-</form>
+<!--<div th:each="post : ${posts}">-->
+<!--<h1 th:text="${post.title}" />-->
+<!--<p th:text="${post.body}" />-->
+<!--</div>-->
 
 </body>
 </html>

@@ -1,7 +1,8 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.Ad;
-import com.example.demo.svcs.AdSvc;
+import com.example.demo.repositories.AdsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,30 +16,37 @@ import java.util.List;
 @Controller
 public class AdsController {
 
-    private AdSvc adsDao;
+    private AdsRepository adsDao;
 
-    public AdsController(AdSvc adsDao) {
+    @Autowired
+    public AdsController(AdsRepository adsDao) {
 
         this.adsDao = adsDao;
 
     }
 
     @GetMapping("/ads")
-    @ResponseBody
     public String index(Model model) {
-
-        List<Ad> ads = adsDao.findAll();
+        Iterable<Ad> ads = adsDao.findAll();
         model.addAttribute("ads", ads);
-        // TODO: Create This View / HTML File
+
+//        Ad ad = adsDao.findByTitle("test");
+//        System.out.println(ad.getDescription());
+
+//        List<Ad> ad2 = adsDao.findByTitleIsLike("%test%");
+
+//        model.addAttribute("ads", ad);
+
         return "ads/index";
 
     }
 
     @GetMapping("/ads/{id}")
-    @ResponseBody
-    public String show(@PathVariable long id) {
+    public String show(@PathVariable long id, Model model) {
 
-        return "view ad #" + id;
+        Ad ad = adsDao.findOne(id);
+        model.addAttribute("ad", ad);
+        return "ads/show";
 
     }
 

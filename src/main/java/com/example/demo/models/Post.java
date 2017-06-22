@@ -4,11 +4,30 @@ package com.example.demo.models;
  * Created by daniel on 6/19/17.
  */
 
+import javax.persistence.*;
+
+@Entity
+@Table (name = "posts")
 public class Post {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(nullable = false, length = 100)
     private String title;
+
+    @Column(nullable = false, length = 300)
     private String body;
+
+    @OneToOne
+    private User owner;
+
+    public Post(Long id, String title, String body) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
+    }
 
     public Post(String title, String body) {
         this.title = title;
@@ -43,4 +62,11 @@ public class Post {
         this.body = body;
     }
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }

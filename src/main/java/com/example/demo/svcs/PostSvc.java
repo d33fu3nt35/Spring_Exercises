@@ -1,45 +1,44 @@
 package com.example.demo.svcs;
 
-import com.example.demo.models.Ad;
 import com.example.demo.models.Post;
+import com.example.demo.repositories.PostsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by daniel on 6/20/17.
  */
 @Service("postSvc")
 public class PostSvc {
-    private List<Post> posts;
 
-    public PostSvc() {
-        createPosts();
+    private PostsRepository postsDao;
+//    private List<Post> posts;
+
+    @Autowired
+    public PostSvc(PostsRepository postsDao) {
+
+        this.postsDao = postsDao;
+
     }
 
-    public List<Post> findAll() {
+    public Iterable<Post> findAll() {
+        Iterable<Post> posts = postsDao.findAll();
         return posts;
     }
 
     public Post save(Post post) {
-        post.setId(posts.size() + 1);
-        posts.add(post);
+        postsDao.save(post);
         return post;
     }
 
     public Post findOne(long id) {
-        return posts.get((int) (id - 1));
+        Post post = postsDao.findOne(id);
+        return post;
     }
 
-    private void createPosts() {
-        posts = new ArrayList<>();
-        save(new Post("Playstation for sale", "$1000 OBO"));
-        save(new Post("Xbox for sale", "$1000 OBO"));
-        save(new Post("Nintendo for sale", "$1000 OBO"));
-        save(new Post("PC for sale", "$1000 OBO"));
+    public Post deletePost(long id) {
+        Post post = postsDao.findOne(id);
+        postsDao.delete(post);
+        return post;
     }
 }
