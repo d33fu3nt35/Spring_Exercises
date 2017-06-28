@@ -1,13 +1,18 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.Ad;
 import com.example.demo.models.Post;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UsersRepo;
 import com.example.demo.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Created by daniel on 6/19/17.
@@ -25,6 +30,16 @@ public class PostsController {
         this.postsDao = postsDao;
         this.usersDao = usersDao;
 
+    }
+
+    @GetMapping("/posts.json")
+    public @ResponseBody Iterable<Post> viewAllPosts() {
+        return postsDao.findAll();
+    }
+
+    @GetMapping("/posts/ajax")
+    public String viewAllPostsUsingAnAJAXCall() {
+        return "posts/ajax";
     }
 
     @GetMapping("/posts")
@@ -51,16 +66,30 @@ public class PostsController {
     }
 
     @PostMapping("/posts/create")
-    public String savePost(@RequestParam(name = "title") String title,
-                           @RequestParam(name = "body") String body,
-                           Model model
+    public String savePost(
+            @Valid Post post,
+            Errors validation,
+            Model model
     ) {
-        Post post = new Post(title, body);
-        User user = usersDao.findOne(usersDao.findByUsername("Daniel").getId()); // just use the first user in the db
+        if (post.getTitle().endsWith("?")) {
+            validation.rejectValue(
+                    "post",
+                    "post.title",
+                    "You can't be unsure about your title!"
+            );
+        }
+
+        if (validation.hasErrors()) {
+            model.addAttribute("errors", validation);
+            model.addAttribute("post", post);
+            return "posts/create";
+        }
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         post.setOwner(user);
         postsDao.save(post);
         model.addAttribute("post", post);
-        return "posts/create";
+        return "redirect:/posts";
     }
 
     @GetMapping("/posts/{id}/edit")
@@ -75,12 +104,11 @@ public class PostsController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String updatePost(@RequestParam(name = "title") String title,
-                             @RequestParam(name = "body") String body,
-                             @PathVariable Long id,
+    public String updatePost(@ModelAttribute Post post,
                              Model model
     ) {
-        Post post = new Post(id, title, body);
+        System.out.println(post.getTitle());
+        System.out.println(post.getOwner().getUsername());
         postsDao.save(post);
         model.addAttribute("post", post);
         return "redirect:/posts";

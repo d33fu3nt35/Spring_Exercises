@@ -1,48 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: head('My Spring Boot Post Form')">
-    <meta charset="UTF-8"/>
-    <title>Hello!</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments :: head('Create a new Post')" />
 <body>
-
-<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="/posts">My Blog!</a>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <a class="nav-link" href="/posts">Home</a>
-            <li class="nav-item">
-                <a class="nav-link" href="/posts/create">Create Post</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/posts/1/edit">Edit Post</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search"/>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
-
-<form action="/posts/create" method="POST" th:object="${post}">
-    <div class="form-group"><label for="title">Post Title</label>
-        <input type="text" name="title" id="title" class="form-control" th:field="*{title}"/>
-    </div>
-
-    <div class="form-group"><label for="body">Post Body</label>
-        <input type="text" name="body" id="body" class="form-control" th:field="*{body}"/>
-    </div>
-
-    <button class="btn btn-default">Save</button>
-
-</form>
-
+<nav th:replace="fragments :: my-navbar"/>
+<div class="container">
+    <form
+            th:action="@{/posts/create}"
+            th:method="POST"
+            th:object="${post}"
+            th:include="fragments :: form"
+    >
+    </form>
+</div>
 </body>
 </html>

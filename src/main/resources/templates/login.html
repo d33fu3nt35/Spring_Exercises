@@ -1,54 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: head('Login!')">
-    <meta charset="UTF-8"/>
-    <title>Hey there!</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head('Login form')" />
 <body>
 
-<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="/posts">My Blog!</a>
+<nav th:replace="fragments :: my-navbar" />
+<div class="container">
+    <h1>Log In</h1>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <a class="nav-link" href="/posts">Home</a>
-            <li class="nav-item">
-                <a class="nav-link" href="/posts/create">Create Post</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/posts/1/edit">Edit Post</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search"/>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+    <div th:if="${param.error}">
+        Invalid Username and Password.
     </div>
-</nav>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
 
-<h1>Log In</h1>
-<div th:if="${param.error}">
-    Invalid Username & Password!
+    <form th:action="@{/login}" method="post">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" />
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" />
+        <input type="submit" value="Log In" />
+    </form>
 </div>
-
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-
-<form th:action="@{/login}" method="POST">
-    <label for="username">Username</label>
-    <input id="username" name="username" type="text"/>
-
-    <label for="password">Password</label>
-    <input id="password" name="password" type="text"/>
-
-    <input type="submit" value="Log In"/>
-</form>
 
 </body>
 </html>

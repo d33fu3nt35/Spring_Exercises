@@ -1,6 +1,11 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "ads")
@@ -11,13 +16,26 @@ public class Ad {
     private long id;
 
     @Column(nullable = false, length = 100)
+    @NotBlank(message = "The title of your ad cannot be empty!")
+    @Size(min = 5, message = "Titles must be at least 3 characters long")
     private String title;
 
     @Column(nullable = false, length = 300)
+    @NotBlank(message = "Please provide a description for your ad!")
     private String description;
 
-    @Column(nullable = false)
-    private long author_id;
+//    @Column(nullable = false)
+//    private long author_id;
+
+    @ManyToOne
+    @JsonManagedReference
+    private User author;
+
+    @OneToMany( cascade = CascadeType.ALL,mappedBy = "ad")
+    private List<AdImage> images;
+
+    @Column(nullable = true)
+    private String imageUrl;
 
     public Ad(String title, String description) {
         this.title = title;
@@ -54,11 +72,35 @@ public class Ad {
     }
 
 
-    public long getAuthor_id() {
-        return author_id;
+//    public long getAuthor_id() {
+//        return author_id;
+//    }
+//
+//    public void setAuthor_id(long author_id) {
+//        this.author_id = author_id;
+//    }
+
+    public User getAuthor() {
+        return author;
     }
 
-    public void setAuthor_id(long author_id) {
-        this.author_id = author_id;
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public List<AdImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<AdImage> images) {
+        this.images = images;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

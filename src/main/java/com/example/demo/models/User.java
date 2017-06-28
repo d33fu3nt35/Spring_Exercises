@@ -4,7 +4,11 @@ package com.example.demo.models;
  * Created by daniel on 6/22/17.
  */
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table (name = "users")
@@ -14,15 +18,23 @@ public class User {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column (nullable = false, length = 50)
+    @Column (nullable = false, unique = true)
     private String username;
 
-    @Column (nullable = false)
+    @Column (nullable = false, unique = true)
     private String email;
 
-    @Column (nullable = false, length = 50)
+    @Column (nullable = false)
+    @JsonIgnore
     private String password;
 
+    @OneToMany(mappedBy = "author")
+    @JsonBackReference
+    private List<Ad> ads;
+
+    @OneToMany(mappedBy = "owner")
+    @JsonBackReference
+    private List<Post> posts;
 
 
     public User(Long id, String username, String email, String password) {
@@ -33,7 +45,10 @@ public class User {
     }
 
     public User(User user) {
-
+        id = user.id;
+        email = user.email;
+        username = user.username;
+        password = user.password;
     }
 
     public User() {
