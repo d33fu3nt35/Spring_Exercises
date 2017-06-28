@@ -35,6 +35,9 @@ public class Post {
     @OneToMany( cascade = CascadeType.ALL,mappedBy = "post")
     private List<PostImage> images;
 
+    @Column(nullable = true)
+    private String imageUrl;
+
     public Post(Long id, String title, String body, User owner) {
         this.id = id;
         this.title = title;
@@ -90,5 +93,13 @@ public class Post {
 
     public void setImages(List<PostImage> images) {
         this.images = images;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -6,13 +6,18 @@ import com.example.demo.models.User;
 import com.example.demo.repositories.UsersRepo;
 import com.example.demo.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 /**
  * Created by daniel on 6/19/17.
@@ -23,6 +28,9 @@ public class PostsController {
 
     private PostSvc postsDao;
     private UsersRepo usersDao;
+
+    @Value("${file-upload-path}")
+    private String uploadPath;
 
     @Autowired
     public PostsController(PostSvc postsDao, UsersRepo usersDao) {
@@ -69,11 +77,12 @@ public class PostsController {
     public String savePost(
             @Valid Post post,
             Errors validation,
+            @RequestParam(name = "file") MultipartFile uploadedFile,
             Model model
     ) {
         if (post.getTitle().endsWith("?")) {
             validation.rejectValue(
-                    "post",
+                    "title",
                     "post.title",
                     "You can't be unsure about your title!"
             );
@@ -85,8 +94,20 @@ public class PostsController {
             return "posts/create";
         }
 
+        String filename = uploadedFile.getOriginalFilename();
+        String filepath = Paths.get(uploadPath, filename).toString();
+        File destinationFile = new File(filepath);
+        try {
+            uploadedFile.transferTo(destinationFile);
+            model.addAttribute("message", "File successfully uploaded!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            model.addAttribute("message", "Oops! Something went wrong! " + e);
+        }
+
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         post.setOwner(user);
+        post.setImageUrl(filename);
         postsDao.save(post);
         model.addAttribute("post", post);
         return "redirect:/posts";
