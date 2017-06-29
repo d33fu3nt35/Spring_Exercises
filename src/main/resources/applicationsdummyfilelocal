@@ -4,5 +4,5 @@ spring.datasource.password=123
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
-file-upload-path=/Users/daniel/IdeaProjects/codeupspring/target/classes/upload
+file-upload-path=/Users/daniel/IdeaProjects/codeupspring/target/classes/static/uploads
 spring.http.multipart.max-file-size=10MB
